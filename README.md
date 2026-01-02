@@ -91,25 +91,14 @@ Failure reason is stored
 
 All timestamps are handled in UTC.
 
-### Postman Collection
 
-This project includes a Postman collection to test all available APIs.
 
-## Collection File
+## Postman Collection File
 
 The Postman collection is available in the repository:
 
 Email Scheduler API.postman_collection.json
 
-## How to Use
-
-Open Postman
-
-Click Import
-
-Select File
-
-Choose Email-Scheduler.postman_collection.json from the repo
 
 
 ## Validations
