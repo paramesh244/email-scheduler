@@ -55,7 +55,7 @@ SENDGRID_API_KEY=your_sendgrid_api_key
 FROM_EMAIL=verified_sender_email@gmail.com
 ```
 
- ### FROM_EMAIL must be verified in SendGrid (Single Sender Verification).
+FROM_EMAIL must be verified in SendGrid (Single Sender Verification).
 
  Running the Application
 ```bash
