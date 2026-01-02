@@ -37,7 +37,7 @@ It is designed with clean architecture, validations.
 ### Clone Repository
 ```bash
 git clone <repository-url>
-cd email-scheduler-api
+cd email-scheduler
 ```
 
 ### Install Dependencies
