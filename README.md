@@ -1,4 +1,4 @@
-# 📧 Email Scheduler API
+# Email Scheduler API
 
 A backend service built using **Node.js, Express, and MongoDB** that allows users to **schedule emails** to be sent at a future date and time.
 
@@ -7,7 +7,7 @@ It is designed with clean architecture, validations.
 
 ---
 
-## 🚀 Features
+## Features
 
 - Create and schedule emails for future delivery
 - Update email content or reschedule delivery time
@@ -19,7 +19,7 @@ It is designed with clean architecture, validations.
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Node.js**
 - **Express.js**
@@ -32,20 +32,20 @@ It is designed with clean architecture, validations.
 
 ---
 
-## ⚙️ Setup & Installation
+## Setup & Installation
 
-### 1️⃣ Clone Repository
+### Clone Repository
 ```bash
 git clone <repository-url>
 cd email-scheduler-api
 ```
 
-### 2️⃣ Install Dependencies
+### Install Dependencies
 ```bash
 npm install
 ```
 
-### 3️⃣ Environment Variables
+###  Environment Variables
 
 Create a .env file using the example below:
 ```env
@@ -57,7 +57,7 @@ FROM_EMAIL=verified_sender_email@gmail.com
 
  ### FROM_EMAIL must be verified in SendGrid (Single Sender Verification).
 
-▶️ Running the Application
+ Running the Application
 ```bash
 npm start
 ```
@@ -69,7 +69,7 @@ http://localhost:3000
 
 ### The email scheduler cron job runs every minute automatically.
 
-## ⏰ How Scheduling Works
+## How Scheduling Works
 
 Email is created with a scheduledAt timestamp (ISO 8601 format).
 
@@ -91,17 +91,17 @@ Failure reason is stored
 
 All timestamps are handled in UTC.
 
-### 📮 Postman Collection
+### Postman Collection
 
 This project includes a Postman collection to test all available APIs.
 
-## 🔗 Collection File
+## Collection File
 
 The Postman collection is available in the repository:
 
 Email Scheduler API.postman_collection.json
 
-## ▶️ How to Use
+## How to Use
 
 Open Postman
 
@@ -112,7 +112,7 @@ Select File
 Choose Email-Scheduler.postman_collection.json from the repo
 
 
-## 🛡️ Validations
+## Validations
 
 Valid email format required
 
@@ -122,7 +122,7 @@ System fields (status, _id) cannot be updated manually
 
 SENT emails cannot be modified
 
-## 🎤 Design Decisions
+## Design Decisions
 
 Single update route is used since rescheduling is simply updating scheduledAt
 
@@ -132,7 +132,7 @@ External services (SendGrid) are abstracted into service layer
 
 Cron job is used instead of queue for simplicity
 
-## 📌 Possible Improvements
+## Possible Improvements
 
 Retry mechanism for failed emails
 
@@ -145,7 +145,7 @@ Queue-based processing (BullMQ / RabbitMQ)
 Dockerization
 
 
-## ✅ Conclusion
+## Conclusion
 
 This project demonstrates:
 
