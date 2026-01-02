@@ -1,0 +1,126 @@
+{
+	"info": {
+		"_postman_id": "9652a231-2aaf-43b3-8399-1c14106ba502",
+		"name": "Email Scheduler API",
+		"description": "Postman collection for Email Scheduler Backend Assignment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20917142",
+		"_collection_link": "https://crimson-satellite-966786.postman.co/workspace/RFP-Management-System~be9b8857-9a57-4d83-91d5-edab48bd86e6/collection/20917142-9652a231-2aaf-43b3-8399-1c14106ba502?action=share&source=collection_link&creator=20917142"
+	},
+	"item": [
+		{
+			"name": "Create Email",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"to\": \"parameshms21@gmail.com\",\n  \"subject\": \"Scheduled Email\",\n  \"body\": \"Hello, this is a scheduled email\",\n  \"scheduledAt\": \"2026-01-02T21:11:00+05:30\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/emails",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"emails"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Emails",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/emails",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"emails"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Email By ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/emails/6957d7061baf90e927886f14",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"emails",
+						"6957d7061baf90e927886f14"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Email",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/emails/6957c4d785a57d71b8c5e15a",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"emails",
+						"6957c4d785a57d71b8c5e15a"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Failed / Unsent Emails",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/emails/failed",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"emails",
+						"failed"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "emailId",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
