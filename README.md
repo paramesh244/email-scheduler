@@ -25,7 +25,7 @@ It is designed with clean architecture and validations.
 - **Express.js**
 - **MongoDB + Mongoose**
 - **SendGrid** – Email delivery service
-- **node-cron** – Background scheduler
+- **node-scheduler** – Background scheduler
 
 ---
 
