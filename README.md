@@ -3,7 +3,7 @@
 A backend service built using **Node.js, Express, and MongoDB** that allows users to **schedule emails** to be sent at a future date and time.
 
 This project supports **CRUD operations**, **email rescheduling**, **failure handling**, and **background email processing** using a cron job.  
-It is designed with clean architecture, validations.
+It is designed with clean architecture and validations.
 
 ---
 
@@ -36,7 +36,7 @@ It is designed with clean architecture, validations.
 
 ### Clone Repository
 ```bash
-git clone <repository-url>
+git clone https://github.com/paramesh244/email-scheduler.git
 cd email-scheduler
 ```
 
@@ -67,29 +67,38 @@ npm start
 http://localhost:3000
 
 
-### The email scheduler cron job runs every minute automatically.
-
 ## How Scheduling Works
 
-Email is created with a scheduledAt timestamp (ISO 8601 format).
+Emails are scheduled using a **job-based scheduler** (`node-schedule`) instead of a cron-based polling mechanism.
 
-Email is stored with status PENDING.
+1. An email is created with a `scheduledAt` timestamp (ISO 8601 format).
+2. The email is stored in the database with status `PENDING`.
+3. At the time of creation, a **one-time scheduled job** is created using `node-schedule`.
+4. The scheduler triggers the job **exactly at the specified `scheduledAt` time**.
 
-A cron job runs every minute.
+### When the scheduled job runs:
+- The email is sent using **SendGrid**
+- On success:
+  - Email status is updated to `SENT`
+- On failure:
+  - Email status is updated to `FAILED`
+  - Failure reason is stored in the database
 
-If scheduledAt <= current time:
+5. After execution (success or failure), the scheduled job is removed from memory to prevent leaks.
 
-Email is sent using SendGrid
+### Update & Delete Behavior
+- On update:
+  - The existing scheduled job is cancelled
+  - A new job is scheduled with the updated details
+- On delete:
+  - The corresponding scheduled job is cancelled to prevent execution
 
-Status is updated to SENT
+### Server Restart Handling
+- On application startup, all `PENDING` emails are fetched from the database
+- Jobs are re-scheduled in memory to ensure no emails are missed after a restart
 
-If sending fails:
+All timestamps are handled in **UTC** to avoid timezone-related issues.
 
-Status is updated to FAILED
-
-Failure reason is stored
-
-All timestamps are handled in UTC.
 
 
 
