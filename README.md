@@ -14,7 +14,7 @@ It is designed with clean architecture and validations.
 - Delete scheduled emails
 - Fetch all emails or a single email
 - Fetch failed or unsent emails
-- Background cron job to send emails automatically
+- Background job to send emails automatically
 - Input validation and proper error handling
 
 ---
