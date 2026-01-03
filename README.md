@@ -2,7 +2,7 @@
 
 A backend service built using **Node.js, Express, and MongoDB** that allows users to **schedule emails** to be sent at a future date and time.
 
-This project supports **CRUD operations**, **email rescheduling**, **failure handling**, and **background email processing** using a cron job.  
+This project supports **CRUD operations**, **email rescheduling**, **failure handling**, and **background email processing**.  
 It is designed with clean architecture and validations.
 
 ---
@@ -128,7 +128,7 @@ UTC timestamps are used to avoid timezone issues
 
 External services (SendGrid) are abstracted into service layer
 
-Cron job is used instead of queue for simplicity
+
 
 ## Possible Improvements
 
