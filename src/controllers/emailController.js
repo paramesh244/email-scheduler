@@ -1,4 +1,5 @@
 const Email = require("../models/Email");
+const { scheduleEmailJob,cancelEmailJob } = require("../schedular/emailScheduler");
 
 const isValidEmail = (email) => {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -10,43 +11,64 @@ const isValidFutureDate = (date) => {
 };
 
 
-
-
 // Create email
 exports.createEmail = async (req, res) => {
+
+  console.log(("first"))
+
+
+
+  const { to, subject, body, scheduledAt } = req.body;
+
+  if (!to || !isValidEmail(to)) {
+    return res.status(400).json({ error: "Invalid recipient email" });
+  }
+
+  if (!subject || typeof subject !== "string") {
+    return res.status(400).json({ error: "Subject is required" });
+  }
+
+  if (!body || typeof body !== "string") {
+    return res.status(400).json({ error: "Body is required" });
+  }
+
+  if (!scheduledAt || !isValidFutureDate(scheduledAt)) {
+    return res.status(400).json({
+      error: "scheduledAt must be a valid future ISO date"
+    });
+  }
+
+   console.log(("second"))
+  let email;
+
   try {
-    const { to, subject, body, scheduledAt } = req.body;
 
-    if (!to || !isValidEmail(to)) {
-      return res.status(400).json({ error: "Invalid recipient email" });
-    }
-
-    if (!subject || typeof subject !== "string") {
-      return res.status(400).json({ error: "Subject is required" });
-    }
-
-    if (!body || typeof body !== "string") {
-      return res.status(400).json({ error: "Body is required" });
-    }
-
-    if (!scheduledAt || !isValidFutureDate(scheduledAt)) {
-      return res.status(400).json({
-        error: "scheduledAt must be a valid future ISO date"
-      });
-    }
-
-    const email = await Email.create({
-      to,
-      subject,
-      body,
-      scheduledAt
+    email = await Email.create(req.body);
+    console.log("email created")
+    scheduleEmailJob(email);
+    console.log("job scheduled")
+    
+    return res.status(201).json({
+      success: true,
+      message: "Email scheduled successfully",
+      data: email
     });
 
-    res.status(201).json({message: "Email created successfully", data: email});
-  } catch (err) {
-    res.status(400).json({ error: err.message });
+  } 
+  catch (err) {
+    if (email?._id) {
+      await Email.findByIdAndDelete(email._id);
+    }
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to schedule email please try again",
+      error: err.message
+    });
   }
-};
+
+
+}
 
 
 // Get all emails
@@ -150,11 +172,19 @@ exports.updateEmail = async (req, res) => {
       email.failureReason = undefined;
     }
 
+
+    cancelEmailJob(email._id.toString());  //cancelling existing job
+
+    Object.assign(email, req.body);
+    email.status = "PENDING";
     await email.save();
+
+    scheduleEmailJob(email);  //schedule new job
+
 
     return res.status(200).json({
       success: true,
-      message: "Email updated successfully",
+      message: "Email re-scheduled successfully",
       data: email
     });
   } catch (err) {
@@ -170,8 +200,9 @@ exports.updateEmail = async (req, res) => {
 // Delete email
 exports.deleteEmail = async (req, res) => {
   try {
-    const email = await Email.findByIdAndDelete(req.params.id);
+    const emailId = req.params.id;
 
+    const email = await Email.findById(emailId);
     if (!email) {
       return res.status(404).json({
         success: false,
@@ -179,11 +210,16 @@ exports.deleteEmail = async (req, res) => {
       });
     }
 
+    cancelEmailJob(emailId);
+
+    await Email.findByIdAndDelete(emailId);
+
     return res.status(200).json({
       success: true,
       message: "Email deleted successfully"
     });
-  } catch (err) {
+  } 
+  catch (err) {
     return res.status(400).json({
       success: false,
       message: "Invalid email ID",
@@ -191,6 +227,7 @@ exports.deleteEmail = async (req, res) => {
     });
   }
 };
+
 
 
 // Failed / Unsent emails
